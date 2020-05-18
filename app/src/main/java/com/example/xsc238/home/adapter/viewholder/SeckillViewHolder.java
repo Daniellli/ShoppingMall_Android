@@ -1,6 +1,8 @@
 package com.example.xsc238.home.adapter.viewholder;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -10,11 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.xsc238.R;
+import com.example.xsc238.home.adapter.HomeFragmentAdapter;
 import com.example.xsc238.home.adapter.SeckillRecyclerViewAdapter;
 import com.example.xsc238.home.bean.ResultBeanData;
 import com.example.xsc238.home.adapter.SeckillRecyclerViewAdapter.OnSeckillRecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+
 
 /**
  * 作者：许少聪
@@ -27,6 +33,22 @@ public class SeckillViewHolder extends RecyclerView.ViewHolder {
     private TextView tv_more_seckill;
     private RecyclerView rv_seckill;
     private SeckillRecyclerViewAdapter seckillRecyclerViewAdapter;
+    private long lastTime = 0;//秒杀剩余时间 单位毫秒
+    private Handler Skeckillhandler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            lastTime -= 1000;
+            tv_time_seckill.setText(new SimpleDateFormat("HH:mm:ss").format(new Date(lastTime)));
+            removeMessages(0);
+            Skeckillhandler.sendEmptyMessageDelayed(0, 1000);
+
+            if (lastTime <= 0) {
+                Skeckillhandler.removeCallbacksAndMessages(null);
+            }
+
+        }
+    };
 
 
     public SeckillViewHolder(@NonNull View itemView, Context mContext) {
@@ -47,6 +69,13 @@ public class SeckillViewHolder extends RecyclerView.ViewHolder {
         rv_seckill.setAdapter(seckillRecyclerViewAdapter);
         rv_seckill.setLayoutManager(new LinearLayoutManager(mContext,
                 LinearLayoutManager.HORIZONTAL, false));
+        /**
+         * 秒杀剩余时间
+         */
+        lastTime = Integer.parseInt(seckill_info.getEnd_time()) - Integer.parseInt(seckill_info.getStart_time());
+        tv_time_seckill.setText(new SimpleDateFormat("HH:mm:ss").format(new Date(lastTime)));
+        Skeckillhandler.sendEmptyMessageDelayed(0, 1000);
+
 
 //初始化监听器
         initListener();
@@ -68,6 +97,7 @@ public class SeckillViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onItemClick(int position) {
                 Toast.makeText(mContext, "position == " + position, Toast.LENGTH_SHORT).show();
+                HomeFragmentAdapter.startGoodsInfoActivity();//跳转只商品详情页面
             }
         });
     }

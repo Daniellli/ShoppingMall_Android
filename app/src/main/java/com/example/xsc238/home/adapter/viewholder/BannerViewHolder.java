@@ -1,6 +1,7 @@
 package com.example.xsc238.home.adapter.viewholder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -8,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.xsc238.R;
+import com.example.xsc238.app.GoodsInfoActivity;
+import com.example.xsc238.home.adapter.HomeFragmentAdapter;
 import com.example.xsc238.home.bean.ResultBeanData;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -83,7 +86,9 @@ public class BannerViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void OnBannerClick(int position) {
                 Toast.makeText(mContext, "position ==" + position, Toast.LENGTH_SHORT).show();
+                HomeFragmentAdapter.startGoodsInfoActivity();//跳转至商品详情页面
             }
         });
     }
+
 }

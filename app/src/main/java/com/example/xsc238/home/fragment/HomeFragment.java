@@ -44,11 +44,11 @@ public class HomeFragment extends BaseFragment {
         ib_top = view.findViewById(R.id.ib_top);
         tv_search_home = view.findViewById(R.id.tv_search_home);
         tv_message_home = view.findViewById(R.id.tv_message_home);
-        inirListener();
+        initListener();
         return view;
     }
 
-    private void inirListener() {
+    private void initListener() {
         /**
          * 滚动到recyclerView顶部
          */
@@ -136,8 +136,22 @@ public class HomeFragment extends BaseFragment {
             ResultBeanData.ResultBean resultBean = resultBeanData.getResult();
             if (resultBean != null) {//有数据，设置适配器
                 homeFragmentAdapter = new HomeFragmentAdapter(mContext, resultBean);
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
                 rv_home.setAdapter(homeFragmentAdapter);
-                rv_home.setLayoutManager(new GridLayoutManager(mContext, 1));
+                rv_home.setLayoutManager(gridLayoutManager);
+                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        if (position < 4) {
+                            ib_top.setVisibility(View.GONE);
+                        } else {
+                            ib_top.setVisibility(View.VISIBLE);
+                        }
+                        return 1;
+                    }
+                });
+
+
             } else {//没数据
 
             }

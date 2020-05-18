@@ -1,6 +1,7 @@
 package com.example.xsc238.home.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -8,9 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.xsc238.R;
+import com.example.xsc238.app.GoodsInfoActivity;
 import com.example.xsc238.home.adapter.viewholder.ActViewHolder;
 import com.example.xsc238.home.adapter.viewholder.BannerViewHolder;
 import com.example.xsc238.home.adapter.viewholder.ChannelViewHolder;
+import com.example.xsc238.home.adapter.viewholder.HotViewHolder;
+import com.example.xsc238.home.adapter.viewholder.RecommendViewHolder;
 import com.example.xsc238.home.adapter.viewholder.SeckillViewHolder;
 import com.example.xsc238.home.bean.ResultBeanData;
 
@@ -50,7 +54,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
      * 当前类型
      */
     public int currentType = BANNER;
-    private Context mContext;
+    private static Context mContext;
     private ResultBeanData.ResultBean resultBean;
     private LayoutInflater layoutInflater;
 
@@ -60,6 +64,15 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         this.resultBean = resultBean;
         layoutInflater = LayoutInflater.from(mContext);
     }
+
+
+    /**
+     * 供给各个ViewHolder跳转到商品详情页面
+     */
+    public static void startGoodsInfoActivity() {
+        mContext.startActivity(new Intent(mContext, GoodsInfoActivity.class));
+    }
+
 
     /**
      * 获取当前处理的数据类型
@@ -112,6 +125,10 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             return new ActViewHolder(layoutInflater.inflate(R.layout.act_item, null, false), mContext);
         } else if (viewType == SECKILL) {
             return new SeckillViewHolder(layoutInflater.inflate(R.layout.seckill_item, null, false), mContext);
+        } else if (viewType == RECOMMEND) {
+            return new RecommendViewHolder(layoutInflater.inflate(R.layout.recommend_item, null, false), mContext);
+        } else if (viewType == HOT) {
+            return new HotViewHolder(layoutInflater.inflate(R.layout.hot_item, null, false), mContext);
         }
         return null;
     }
@@ -134,11 +151,17 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         } else if (getItemViewType(position) == SECKILL) {
             SeckillViewHolder seckillViewHolder = (SeckillViewHolder) holder;
             seckillViewHolder.setData(resultBean.getSeckill_info());
+        } else if (getItemViewType(position) == RECOMMEND) {
+            RecommendViewHolder recommendViewHolder = (RecommendViewHolder) holder;
+            recommendViewHolder.setData(resultBean.getRecommend_info());
+        } else if (getItemViewType(position) == HOT) {
+            HotViewHolder hotViewHolder = (HotViewHolder) holder;
+            hotViewHolder.setData(resultBean.getHot_info());
         }
     }
 
     @Override
     public int getItemCount() {
-        return 4;//先完成第一个
+        return 6;//先完成第一个
     }
 }
