@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.xsc238.R;
 import com.example.xsc238.app.GoodsInfoActivity;
 import com.example.xsc238.home.adapter.HomeFragmentAdapter;
+import com.example.xsc238.home.bean.GoodsBean;
 import com.example.xsc238.home.bean.ResultBeanData;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -73,22 +74,18 @@ public class BannerViewHolder extends RecyclerView.ViewHolder {
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         banner.setImageLoader(new MyImagerLoad());
         banner.setImages(imgUrls);
-        initListener();
-        banner.start();
-    }
 
-    /**
-     * 初始化监听器
-     */
-    private void initListener() {
-        //横幅点击事件
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
                 Toast.makeText(mContext, "position ==" + position, Toast.LENGTH_SHORT).show();
-                HomeFragmentAdapter.startGoodsInfoActivity();//跳转至商品详情页面
+//                ResultBeanData.ResultBean.BannerInfoBean bannerInfoBean = banner_info.get(position);
+//                GoodsBean goodsBean = new GoodsBean(bannerInfoBean.get)
+//                HomeFragmentAdapter.startGoodsInfoActivity();//跳转至商品详情页面
             }
         });
+        banner.start();
     }
+
 
 }

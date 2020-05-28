@@ -38,12 +38,9 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         tempFragment = null;
-
-
         initFragment();
         initListener();
         rg_main.check(R.id.rb_home);
-
     }
 
 

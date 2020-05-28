@@ -16,6 +16,7 @@ import com.example.xsc238.home.adapter.viewholder.ChannelViewHolder;
 import com.example.xsc238.home.adapter.viewholder.HotViewHolder;
 import com.example.xsc238.home.adapter.viewholder.RecommendViewHolder;
 import com.example.xsc238.home.adapter.viewholder.SeckillViewHolder;
+import com.example.xsc238.home.bean.GoodsBean;
 import com.example.xsc238.home.bean.ResultBeanData;
 
 /**
@@ -49,6 +50,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
      * 热卖
      */
     public static final int HOT = 5;
+    public static final String GOODSBEAN = "goods_bean";
 
     /**
      * 当前类型
@@ -69,8 +71,10 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
     /**
      * 供给各个ViewHolder跳转到商品详情页面
      */
-    public static void startGoodsInfoActivity() {
-        mContext.startActivity(new Intent(mContext, GoodsInfoActivity.class));
+    public static void startGoodsInfoActivity(GoodsBean goodsBean) {
+        Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+        intent.putExtra(GOODSBEAN, goodsBean);
+        mContext.startActivity(intent);
     }
 
 

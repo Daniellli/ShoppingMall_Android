@@ -5,16 +5,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.xsc238.R;
 import com.example.xsc238.home.adapter.HomeFragmentAdapter;
 import com.example.xsc238.home.adapter.HotRecyclerViewAdapter;
+import com.example.xsc238.home.bean.GoodsBean;
 import com.example.xsc238.home.bean.ResultBeanData;
 
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -40,7 +40,6 @@ public class HotViewHolder extends RecyclerView.ViewHolder {
         super(view);
         this.mContext = mContext;
         ButterKnife.bind(this, view);
-
     }
 
     /**
@@ -56,17 +55,21 @@ public class HotViewHolder extends RecyclerView.ViewHolder {
         rv_hot.setAdapter(hotRecyclerViewAdapter);
         rv_hot.setLayoutManager(gridLayoutManager);
 
-        initListener();
+        initListener(hot_info);
 
 
     }
 
-    private void initListener() {
+    private void initListener(List<ResultBeanData.ResultBean.HotInfoBean> hot_info) {
         hotRecyclerViewAdapter.setOnHotItemClick(new HotRecyclerViewAdapter.OnHotItemClick() {
             @Override
             public void onHotItemClick(int position) {
                 Toast.makeText(mContext, "position ==" + position, Toast.LENGTH_SHORT).show();
-                HomeFragmentAdapter.startGoodsInfoActivity();//跳转只商品详情页面
+                ResultBeanData.ResultBean.HotInfoBean hotInfoBean = hot_info.get(position);
+                GoodsBean goodsBean = new GoodsBean(hotInfoBean.getName(),
+                        hotInfoBean.getCover_price(), hotInfoBean.getFigure(),
+                        hotInfoBean.getProduct_id());
+                HomeFragmentAdapter.startGoodsInfoActivity(goodsBean);//跳转只商品详情页面
             }
         });
 

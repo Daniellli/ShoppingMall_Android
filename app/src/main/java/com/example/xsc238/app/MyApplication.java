@@ -1,6 +1,7 @@
 package com.example.xsc238.app;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -14,9 +15,19 @@ import okhttp3.OkHttpClient;
  * 作用：
  */
 public class MyApplication extends Application {
+
+    private static Context mContext;
+
+
+    public static Context getmContext() {
+        return mContext;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext = this;
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new LoggerInterceptor("TAG"))
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.xsc238.R;
 import com.example.xsc238.home.adapter.HomeFragmentAdapter;
 import com.example.xsc238.home.adapter.SeckillRecyclerViewAdapter;
+import com.example.xsc238.home.bean.GoodsBean;
 import com.example.xsc238.home.bean.ResultBeanData;
 import com.example.xsc238.home.adapter.SeckillRecyclerViewAdapter.OnSeckillRecyclerView;
 
@@ -78,10 +79,10 @@ public class SeckillViewHolder extends RecyclerView.ViewHolder {
 
 
 //初始化监听器
-        initListener();
+        initListener(seckill_info);
     }
 
-    private void initListener() {
+    private void initListener(ResultBeanData.ResultBean.SeckillInfoBean seckill_info) {
         tv_more_seckill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +98,12 @@ public class SeckillViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onItemClick(int position) {
                 Toast.makeText(mContext, "position == " + position, Toast.LENGTH_SHORT).show();
-                HomeFragmentAdapter.startGoodsInfoActivity();//跳转只商品详情页面
+                ResultBeanData.ResultBean.SeckillInfoBean.ListBean listBean = seckill_info.getList().get(position);
+                GoodsBean goodsBean = new GoodsBean(listBean.getName(),
+                        listBean.getCover_price(), listBean.getFigure(),
+                        listBean.getProduct_id());
+
+                HomeFragmentAdapter.startGoodsInfoActivity(goodsBean);//跳转只商品详情页面
             }
         });
     }

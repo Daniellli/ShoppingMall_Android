@@ -1,3 +1,2 @@
 rootProject.name='xsc238'
 include ':app'
-include ':ScrollViewContainer'

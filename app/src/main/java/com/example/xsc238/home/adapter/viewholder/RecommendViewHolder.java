@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.xsc238.R;
 import com.example.xsc238.home.adapter.HomeFragmentAdapter;
 import com.example.xsc238.home.adapter.RecommendRecyclerViewAdapter;
+import com.example.xsc238.home.bean.GoodsBean;
 import com.example.xsc238.home.bean.ResultBeanData;
 
 import java.util.List;
@@ -43,13 +44,13 @@ public class RecommendViewHolder extends RecyclerView.ViewHolder {
         recommendRecyclerViewAdapter = new RecommendRecyclerViewAdapter(mContext, recommend_info);
         rv_recommend.setAdapter(recommendRecyclerViewAdapter);
         rv_recommend.setLayoutManager(new GridLayoutManager(mContext, 3));
-        initListener();
+        initListener(recommend_info);
     }
 
     /**
      * 初始化监听器
      */
-    private void initListener() {
+    private void initListener(List<ResultBeanData.ResultBean.RecommendInfoBean> recommend_info) {
         tv_more_recommend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +62,11 @@ public class RecommendViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onRecommendItemClick(int position) {
                 Toast.makeText(mContext, "position ==" + position, Toast.LENGTH_SHORT).show();
-                HomeFragmentAdapter.startGoodsInfoActivity();//跳转只商品详情页面
+                ResultBeanData.ResultBean.RecommendInfoBean recommendInfoBean = recommend_info.get(position);
+                GoodsBean goodsBean = new GoodsBean(recommendInfoBean.getName(),
+                        recommendInfoBean.getCover_price(), recommendInfoBean.getFigure(),
+                        recommendInfoBean.getProduct_id());
+                HomeFragmentAdapter.startGoodsInfoActivity(goodsBean);//跳转只商品详情页面
             }
         });
     }
